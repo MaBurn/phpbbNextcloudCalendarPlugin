@@ -99,6 +99,17 @@ class caldav_client
         if (!$ok)
         {
             $this->last_error = 'Nextcloud returned HTTP ' . $status . '.';
+
+            if ($status === 401 && preg_match('#/remote\.php/dav/calendars/([^/]+)/#', $url, $matches) === 1)
+            {
+                $calendar_user = rawurldecode($matches[1]);
+                $configured_user = (string) $this->config['nextcloudcalendar_username'];
+
+                if ($calendar_user !== $configured_user)
+                {
+                    $this->last_error .= ' The CalDAV URL belongs to "' . $calendar_user . '", but the configured technical user is "' . $configured_user . '".';
+                }
+            }
         }
 
         return ['ok' => $ok, 'status' => $status];
