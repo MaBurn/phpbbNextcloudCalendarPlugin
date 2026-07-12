@@ -2,6 +2,8 @@
 
 namespace maxbrenne\nextcloudcalendar\acp;
 
+use maxbrenne\nextcloudcalendar\service\icon_helper;
+
 class main_module
 {
     private const FRONTEND_POSITIONS = ['none', 'navigation', 'quicklinks', 'index_button', 'index_tile', 'footer'];
@@ -25,6 +27,7 @@ class main_module
 
         $errors = [];
         $test_result = '';
+        $test_ok = false;
 
         if ($request->is_set_post('submit') || $request->is_set_post('test_connection'))
         {
@@ -34,13 +37,25 @@ class main_module
             }
             else
             {
+                $timezone = trim($request->variable('timezone', 'Europe/Berlin', true));
+
+                try
+                {
+                    new \DateTimeZone($timezone);
+                }
+                catch (\Exception $e)
+                {
+                    $errors[] = $user->lang('ACP_NEXTCLOUDCALENDAR_TIMEZONE_INVALID', $timezone);
+                    $timezone = $config['nextcloudcalendar_timezone'];
+                }
+
                 $config->set('nextcloudcalendar_enabled', $request->variable('enabled', 0));
                 $config->set('nextcloudcalendar_calendar_url', trim($request->variable('calendar_url', '', true)));
                 $config->set('nextcloudcalendar_username', trim($request->variable('username', '', true)));
-                $config->set('nextcloudcalendar_timezone', trim($request->variable('timezone', 'Europe/Berlin', true)));
+                $config->set('nextcloudcalendar_timezone', $timezone);
                 $frontend_position = $request->variable('frontend_position', 'navigation');
                 $config->set('nextcloudcalendar_frontend_position', in_array($frontend_position, self::FRONTEND_POSITIONS, true) ? $frontend_position : 'navigation');
-                $config->set('nextcloudcalendar_frontend_icon', $this->normalise_icon($request->variable('frontend_icon', 'fa-calendar-plus-o', true)));
+                $config->set('nextcloudcalendar_frontend_icon', icon_helper::normalise($request->variable('frontend_icon', icon_helper::DEFAULT_ICON, true)));
                 $password = $request->variable('password', '', true);
 
                 if ($password !== '')
@@ -50,9 +65,10 @@ class main_module
 
                 if ($request->is_set_post('test_connection'))
                 {
-                    $test_result = $caldav->test_connection() ? $user->lang('ACP_NEXTCLOUDCALENDAR_TEST_OK') : $caldav->get_last_error();
+                    $test_ok = $caldav->test_connection();
+                    $test_result = $test_ok ? $user->lang('ACP_NEXTCLOUDCALENDAR_TEST_OK') : $caldav->get_last_error();
                 }
-                else
+                else if (empty($errors))
                 {
                     trigger_error($user->lang('CONFIG_UPDATED') . adm_back_link($this->u_action));
                 }
@@ -64,6 +80,7 @@ class main_module
             'S_ERROR' => !empty($errors),
             'ERROR_MSG' => implode('<br>', $errors),
             'TEST_RESULT' => $test_result,
+            'S_TEST_OK' => $test_ok,
             'ENABLED' => (int) $config['nextcloudcalendar_enabled'],
             'CALENDAR_URL' => $config['nextcloudcalendar_calendar_url'],
             'NEXTCLOUDCALENDAR_USERNAME' => $config['nextcloudcalendar_username'],
@@ -74,29 +91,7 @@ class main_module
             'FRONTEND_POSITION_INDEX_BUTTON' => ($config['nextcloudcalendar_frontend_position'] ?? 'navigation') === 'index_button',
             'FRONTEND_POSITION_INDEX_TILE' => ($config['nextcloudcalendar_frontend_position'] ?? 'navigation') === 'index_tile',
             'FRONTEND_POSITION_FOOTER' => ($config['nextcloudcalendar_frontend_position'] ?? 'navigation') === 'footer',
-            'FRONTEND_ICON' => $config['nextcloudcalendar_frontend_icon'] ?? 'fa-calendar-plus-o',
+            'FRONTEND_ICON' => $config['nextcloudcalendar_frontend_icon'] ?? icon_helper::DEFAULT_ICON,
         ]);
-    }
-
-    private function normalise_icon(string $icon): string
-    {
-        $icon = trim($icon);
-        $icon = preg_replace('/[^a-z0-9\-\s]/i', '', $icon);
-        $parts = preg_split('/\s+/', (string) $icon, -1, PREG_SPLIT_NO_EMPTY);
-
-        foreach ($parts as $part)
-        {
-            if (strpos($part, 'fa-') === 0)
-            {
-                return $part;
-            }
-        }
-
-        if (!empty($parts[0]) && $parts[0] !== 'fa')
-        {
-            return 'fa-' . $parts[0];
-        }
-
-        return 'fa-calendar-plus-o';
     }
 }

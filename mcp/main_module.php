@@ -23,12 +23,14 @@ class main_module
         add_form_key('mcp_nextcloudcalendar_queue');
 
         $message = '';
+        $message_is_error = false;
 
         if ($request->is_set_post('approve') || $request->is_set_post('reject'))
         {
             if (!check_form_key('mcp_nextcloudcalendar_queue'))
             {
                 $message = $user->lang('FORM_INVALID');
+                $message_is_error = true;
             }
             else
             {
@@ -39,25 +41,42 @@ class main_module
                 {
                     if ($request->is_set_post('approve'))
                     {
-                        $uid = $caldav->create_event($event);
+                        // Claim the event first so two moderators cannot both push it to Nextcloud.
+                        $sql_ary = [
+                            'status' => 'approved',
+                            'approved_time' => time(),
+                            'approved_user_id' => (int) $user->data['user_id'],
+                        ];
+                        $db->sql_query('UPDATE ' . $events_table . ' SET ' . $db->sql_build_array('UPDATE', $sql_ary) . " WHERE event_id = " . (int) $event_id . " AND status = 'pending'");
 
-                        if ($uid !== null)
+                        if (!$db->sql_affectedrows())
                         {
-                            $sql_ary = [
-                                'status' => 'approved',
-                                'approved_time' => time(),
-                                'approved_user_id' => (int) $user->data['user_id'],
-                                'nextcloud_uid' => $uid,
-                                'nextcloud_error' => '',
-                            ];
-                            $db->sql_query('UPDATE ' . $events_table . ' SET ' . $db->sql_build_array('UPDATE', $sql_ary) . ' WHERE event_id = ' . (int) $event_id);
-                            $message = $user->lang('MCP_NEXTCLOUDCALENDAR_APPROVED');
+                            $message = $user->lang('MCP_NEXTCLOUDCALENDAR_ALREADY_HANDLED');
+                            $message_is_error = true;
                         }
                         else
                         {
-                            $sql_ary = ['nextcloud_error' => $caldav->get_last_error()];
-                            $db->sql_query('UPDATE ' . $events_table . ' SET ' . $db->sql_build_array('UPDATE', $sql_ary) . ' WHERE event_id = ' . (int) $event_id);
-                            $message = $caldav->get_last_error();
+                            $uid = $caldav->create_event($event);
+
+                            if ($uid !== null)
+                            {
+                                $sql_ary = ['nextcloud_uid' => $uid, 'nextcloud_error' => ''];
+                                $db->sql_query('UPDATE ' . $events_table . ' SET ' . $db->sql_build_array('UPDATE', $sql_ary) . ' WHERE event_id = ' . (int) $event_id);
+                                $message = $user->lang('MCP_NEXTCLOUDCALENDAR_APPROVED');
+                            }
+                            else
+                            {
+                                // CalDAV failed: release the claim so the event stays in the queue.
+                                $sql_ary = [
+                                    'status' => 'pending',
+                                    'approved_time' => 0,
+                                    'approved_user_id' => 0,
+                                    'nextcloud_error' => $caldav->get_last_error(),
+                                ];
+                                $db->sql_query('UPDATE ' . $events_table . ' SET ' . $db->sql_build_array('UPDATE', $sql_ary) . ' WHERE event_id = ' . (int) $event_id);
+                                $message = $caldav->get_last_error();
+                                $message_is_error = true;
+                            }
                         }
                     }
                     else
@@ -67,8 +86,17 @@ class main_module
                             'approved_time' => time(),
                             'approved_user_id' => (int) $user->data['user_id'],
                         ];
-                        $db->sql_query('UPDATE ' . $events_table . ' SET ' . $db->sql_build_array('UPDATE', $sql_ary) . ' WHERE event_id = ' . (int) $event_id);
-                        $message = $user->lang('MCP_NEXTCLOUDCALENDAR_REJECTED');
+                        $db->sql_query('UPDATE ' . $events_table . ' SET ' . $db->sql_build_array('UPDATE', $sql_ary) . " WHERE event_id = " . (int) $event_id . " AND status = 'pending'");
+
+                        if ($db->sql_affectedrows())
+                        {
+                            $message = $user->lang('MCP_NEXTCLOUDCALENDAR_REJECTED');
+                        }
+                        else
+                        {
+                            $message = $user->lang('MCP_NEXTCLOUDCALENDAR_ALREADY_HANDLED');
+                            $message_is_error = true;
+                        }
                     }
                 }
             }
@@ -99,6 +127,7 @@ class main_module
         $template->assign_vars([
             'U_ACTION' => $this->u_action,
             'MESSAGE' => $message,
+            'S_MESSAGE_ERROR' => $message_is_error,
         ]);
     }
 

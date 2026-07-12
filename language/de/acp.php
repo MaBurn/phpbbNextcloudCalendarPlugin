@@ -26,6 +26,7 @@ $lang = array_merge($lang, [
     'ACP_NEXTCLOUDCALENDAR_PASSWORD' => 'App-Passwort oder Passwort',
     'ACP_NEXTCLOUDCALENDAR_PASSWORD_EXPLAIN' => 'Leer lassen, um das vorhandene Passwort beizubehalten.',
     'ACP_NEXTCLOUDCALENDAR_TIMEZONE' => 'Zeitzone',
+    'ACP_NEXTCLOUDCALENDAR_TIMEZONE_INVALID' => 'Die Zeitzone „%s“ ist kein gültiger PHP-Zeitzonen-Bezeichner. Die bisherige Zeitzone wurde beibehalten.',
     'ACP_NEXTCLOUDCALENDAR_TEST' => 'Verbindung testen',
     'ACP_NEXTCLOUDCALENDAR_TEST_OK' => 'Verbindung erfolgreich.',
 ]);

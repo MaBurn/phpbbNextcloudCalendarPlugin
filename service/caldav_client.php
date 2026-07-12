@@ -75,6 +75,7 @@ class caldav_client
             CURLOPT_HTTPHEADER => $headers,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_HEADER => false,
+            CURLOPT_CONNECTTIMEOUT => 10,
             CURLOPT_TIMEOUT => 20,
         ]);
 
@@ -151,15 +152,24 @@ class caldav_client
             'CREATED:' . $created,
             'DTSTART:' . $start,
             'DTEND:' . $end,
-            'SUMMARY:' . $this->escape_text((string) $event['title']),
-            'DESCRIPTION:' . $this->escape_text((string) $event['description']),
-            'LOCATION:' . $this->escape_text((string) $event['location']),
+            'SUMMARY:' . $this->escape_text($this->decode_input((string) $event['title'])),
+            'DESCRIPTION:' . $this->escape_text($this->decode_input((string) $event['description'])),
+            'LOCATION:' . $this->escape_text($this->decode_input((string) $event['location'])),
             'END:VEVENT',
             'END:VCALENDAR',
             '',
         ];
 
-        return implode("\r\n", $lines);
+        return implode("\r\n", array_map([$this, 'fold_line'], $lines));
+    }
+
+    /**
+     * phpBB escapes request input with htmlspecialchars() before it is stored.
+     * Decode the entities again, otherwise Nextcloud displays literal "&amp;" etc.
+     */
+    protected function decode_input(string $value): string
+    {
+        return htmlspecialchars_decode($value, ENT_QUOTES);
     }
 
     protected function escape_text(string $value): string
@@ -167,5 +177,39 @@ class caldav_client
         $value = str_replace(["\\", "\r\n", "\r", "\n", ';', ','], ['\\\\', '\n', '\n', '\n', '\;', '\,'], $value);
 
         return $value;
+    }
+
+    /**
+     * RFC 5545 line folding: content lines must not exceed 75 octets.
+     * Continuation lines start with a single space and stay UTF-8 safe.
+     */
+    protected function fold_line(string $line): string
+    {
+        if (strlen($line) <= 75)
+        {
+            return $line;
+        }
+
+        $folded = [];
+        $first = true;
+
+        while ($line !== '')
+        {
+            // Continuation lines lose one octet to the leading space.
+            $limit = $first ? 75 : 74;
+            $chunk = substr($line, 0, $limit);
+
+            // Never split inside a UTF-8 multi-byte sequence.
+            while ($chunk !== '' && isset($line[strlen($chunk)]) && (ord($line[strlen($chunk)]) & 0xC0) === 0x80)
+            {
+                $chunk = substr($chunk, 0, -1);
+            }
+
+            $folded[] = ($first ? '' : ' ') . $chunk;
+            $line = substr($line, strlen($chunk));
+            $first = false;
+        }
+
+        return implode("\r\n", $folded);
     }
 }

@@ -80,9 +80,9 @@ class request_controller
                     $sql_ary = [
                         'user_id' => (int) $this->user->data['user_id'],
                         'username' => $this->user->data['username'],
-                        'title' => $data['title'],
+                        'title' => truncate_string(trim($data['title']), 255, 255),
                         'description' => $data['description'],
-                        'location' => $data['location'],
+                        'location' => truncate_string(trim($data['location']), 255, 255),
                         'start_time' => $timestamps['start'],
                         'end_time' => $timestamps['end'],
                         'status' => 'pending',
@@ -111,10 +111,17 @@ class request_controller
         try
         {
             $timezone = new \DateTimeZone($timezone_name);
-            $start_date = new \DateTimeImmutable($start, $timezone);
-            $end_date = new \DateTimeImmutable($end, $timezone);
         }
         catch (\Exception $e)
+        {
+            // A misconfigured timezone must not block user submissions.
+            $timezone = new \DateTimeZone('UTC');
+        }
+
+        $start_date = $this->parse_local_datetime($start, $timezone);
+        $end_date = $this->parse_local_datetime($end, $timezone);
+
+        if ($start_date === null || $end_date === null)
         {
             return null;
         }
@@ -123,5 +130,25 @@ class request_controller
             'start' => $start_date->getTimestamp(),
             'end' => $end_date->getTimestamp(),
         ];
+    }
+
+    /**
+     * Strictly parses the HTML datetime-local format (2026-07-13T18:30[:00]).
+     * Rejects empty input, free-form strings and rolled-over dates like Feb 30.
+     */
+    protected function parse_local_datetime(string $value, \DateTimeZone $timezone): ?\DateTimeImmutable
+    {
+        foreach (['!Y-m-d\TH:i', '!Y-m-d\TH:i:s'] as $format)
+        {
+            $date = \DateTimeImmutable::createFromFormat($format, $value, $timezone);
+            $errors = \DateTimeImmutable::getLastErrors();
+
+            if ($date !== false && ($errors === false || ($errors['warning_count'] === 0 && $errors['error_count'] === 0)))
+            {
+                return $date;
+            }
+        }
+
+        return null;
     }
 }

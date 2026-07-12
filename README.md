@@ -107,6 +107,12 @@ Default assignments:
 6. On failure, the proposal remains pending and the last CalDAV error is shown
    in the MCP queue.
 
+## Documentation
+
+See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the use case, the
+end-to-end workflow and the software architecture, including Mermaid diagrams
+(use case, sequence, state, component and data model).
+
 ## Review Status
 
 The extension source follows the standard phpBB extension layout:

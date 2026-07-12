@@ -16,4 +16,5 @@ $lang = array_merge($lang, [
     'MCP_NEXTCLOUDCALENDAR_APPROVED' => "L'evenement a ete valide et ajoute a Nextcloud.",
     'MCP_NEXTCLOUDCALENDAR_REJECTED' => "L'evenement a ete refuse.",
     'MCP_NEXTCLOUDCALENDAR_LAST_ERROR' => 'Derniere erreur Nextcloud',
+    'MCP_NEXTCLOUDCALENDAR_ALREADY_HANDLED' => 'Cet evenement a deja ete traite par un autre moderateur.',
 ]);

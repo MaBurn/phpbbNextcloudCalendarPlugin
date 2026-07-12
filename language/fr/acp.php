@@ -26,6 +26,7 @@ $lang = array_merge($lang, [
     'ACP_NEXTCLOUDCALENDAR_PASSWORD' => "Mot de passe d'application ou mot de passe",
     'ACP_NEXTCLOUDCALENDAR_PASSWORD_EXPLAIN' => 'Laisser vide pour conserver le mot de passe actuel.',
     'ACP_NEXTCLOUDCALENDAR_TIMEZONE' => 'Fuseau horaire',
+    'ACP_NEXTCLOUDCALENDAR_TIMEZONE_INVALID' => 'Le fuseau horaire "%s" n est pas un identifiant PHP valide. Le fuseau horaire precedent a ete conserve.',
     'ACP_NEXTCLOUDCALENDAR_TEST' => 'Tester la connexion',
     'ACP_NEXTCLOUDCALENDAR_TEST_OK' => 'Connexion reussie.',
 ]);

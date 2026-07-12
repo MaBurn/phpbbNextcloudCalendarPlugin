@@ -8,6 +8,7 @@ use phpbb\controller\helper;
 use phpbb\template\template;
 use phpbb\user;
 use maxbrenne\nextcloudcalendar\service\form_renderer;
+use maxbrenne\nextcloudcalendar\service\icon_helper;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class listener implements EventSubscriberInterface
@@ -40,11 +41,15 @@ class listener implements EventSubscriberInterface
 
     public function add_calendar_link(): void
     {
-        $this->user->add_lang_ext('maxbrenne/nextcloudcalendar', 'common');
-
         $can_create = !empty($this->config['nextcloudcalendar_enabled']) && $this->auth->acl_get('u_nextcloudcalendar_create');
         $frontend_position = $this->config['nextcloudcalendar_frontend_position'] ?? 'navigation';
-        $frontend_icon = $this->normalise_icon($this->config['nextcloudcalendar_frontend_icon'] ?? 'fa-calendar-plus-o');
+        $frontend_icon = icon_helper::normalise($this->config['nextcloudcalendar_frontend_icon'] ?? icon_helper::DEFAULT_ICON);
+
+        // Only load the language file when a link is actually rendered.
+        if ($can_create && $frontend_position !== 'none')
+        {
+            $this->user->add_lang_ext('maxbrenne/nextcloudcalendar', 'common');
+        }
 
         $this->template->assign_vars([
             'S_NEXTCLOUDCALENDAR_CAN_CREATE' => $can_create,
@@ -109,27 +114,5 @@ class listener implements EventSubscriberInterface
         }
 
         return $labels[$langname][$is_french ? 2 : ($is_german ? 1 : 0)];
-    }
-
-    protected function normalise_icon(string $icon): string
-    {
-        $icon = trim($icon);
-        $icon = preg_replace('/[^a-z0-9\-\s]/i', '', $icon);
-        $parts = preg_split('/\s+/', (string) $icon, -1, PREG_SPLIT_NO_EMPTY);
-
-        foreach ($parts as $part)
-        {
-            if (strpos($part, 'fa-') === 0)
-            {
-                return $part;
-            }
-        }
-
-        if (!empty($parts[0]) && $parts[0] !== 'fa')
-        {
-            return 'fa-' . $parts[0];
-        }
-
-        return 'fa-calendar-plus-o';
     }
 }

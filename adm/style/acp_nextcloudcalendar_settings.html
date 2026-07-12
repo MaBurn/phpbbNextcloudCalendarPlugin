@@ -6,8 +6,11 @@
 <div class="errorbox"><p>{ERROR_MSG}</p></div>
 <!-- ENDIF -->
 
-<!-- IF TEST_RESULT -->
+<!-- IF TEST_RESULT and S_TEST_OK -->
 <div class="successbox"><p>{TEST_RESULT}</p></div>
+<!-- ENDIF -->
+<!-- IF TEST_RESULT and not S_TEST_OK -->
+<div class="errorbox"><p>{TEST_RESULT}</p></div>
 <!-- ENDIF -->
 
 <form id="acp_nextcloudcalendar_settings" method="post" action="{U_ACTION}">

@@ -16,4 +16,5 @@ $lang = array_merge($lang, [
     'MCP_NEXTCLOUDCALENDAR_APPROVED' => 'Der Kalendereintrag wurde freigegeben und in Nextcloud eingetragen.',
     'MCP_NEXTCLOUDCALENDAR_REJECTED' => 'Der Kalendereintrag wurde abgelehnt.',
     'MCP_NEXTCLOUDCALENDAR_LAST_ERROR' => 'Letzter Nextcloud-Fehler',
+    'MCP_NEXTCLOUDCALENDAR_ALREADY_HANDLED' => 'Dieser Kalendereintrag wurde bereits von einem anderen Moderator bearbeitet.',
 ]);

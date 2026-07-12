@@ -2,7 +2,10 @@
 
 <h2>{L_MCP_NEXTCLOUDCALENDAR_QUEUE}</h2>
 
-<!-- IF MESSAGE -->
+<!-- IF MESSAGE and S_MESSAGE_ERROR -->
+<div class="errorbox"><p>{MESSAGE}</p></div>
+<!-- ENDIF -->
+<!-- IF MESSAGE and not S_MESSAGE_ERROR -->
 <div class="successbox"><p>{MESSAGE}</p></div>
 <!-- ENDIF -->
 
