@@ -30,6 +30,7 @@ services:
         class: maxbrenne\nextcloudcalendar\event\listener
         arguments:
             - '@auth'
+            - '@config'
             - '@controller.helper'
             - '@maxbrenne.nextcloudcalendar.service.form_renderer'
             - '@template'

@@ -3,6 +3,7 @@
 namespace maxbrenne\nextcloudcalendar\event;
 
 use phpbb\auth\auth;
+use phpbb\config\config;
 use phpbb\controller\helper;
 use phpbb\template\template;
 use phpbb\user;
@@ -12,14 +13,16 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class listener implements EventSubscriberInterface
 {
     protected auth $auth;
+    protected config $config;
     protected form_renderer $form_renderer;
     protected helper $helper;
     protected template $template;
     protected user $user;
 
-    public function __construct(auth $auth, helper $helper, form_renderer $form_renderer, template $template, user $user)
+    public function __construct(auth $auth, config $config, helper $helper, form_renderer $form_renderer, template $template, user $user)
     {
         $this->auth = $auth;
+        $this->config = $config;
         $this->helper = $helper;
         $this->form_renderer = $form_renderer;
         $this->template = $template;
@@ -39,8 +42,14 @@ class listener implements EventSubscriberInterface
     {
         $this->user->add_lang_ext('maxbrenne/nextcloudcalendar', 'common');
 
+        $can_create = !empty($this->config['nextcloudcalendar_enabled']) && $this->auth->acl_get('u_nextcloudcalendar_create');
+        $frontend_position = $this->config['nextcloudcalendar_frontend_position'] ?? 'navigation';
+
         $this->template->assign_vars([
-            'S_NEXTCLOUDCALENDAR_CAN_CREATE' => $this->auth->acl_get('u_nextcloudcalendar_create'),
+            'S_NEXTCLOUDCALENDAR_CAN_CREATE' => $can_create,
+            'S_NEXTCLOUDCALENDAR_SHOW_NAVIGATION' => $can_create && $frontend_position === 'navigation',
+            'S_NEXTCLOUDCALENDAR_SHOW_INDEX' => $can_create && $frontend_position === 'index',
+            'S_NEXTCLOUDCALENDAR_SHOW_FOOTER' => $can_create && $frontend_position === 'footer',
             'U_NEXTCLOUDCALENDAR_REQUEST' => $this->helper->route('maxbrenne_nextcloudcalendar_request'),
         ]);
     }
