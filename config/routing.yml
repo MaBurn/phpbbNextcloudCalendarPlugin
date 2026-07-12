@@ -1,0 +1,3 @@
+maxbrenne_nextcloudcalendar_request:
+    path: /nextcloudcalendar/request
+    defaults: { _controller: 'maxbrenne.nextcloudcalendar.controller.request:handle' }

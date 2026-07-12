@@ -1,0 +1,46 @@
+<!-- INCLUDE overall_header.html -->
+
+<h1>{L_ACP_NEXTCLOUDCALENDAR_SETTINGS}</h1>
+
+<!-- IF S_ERROR -->
+<div class="errorbox"><p>{ERROR_MSG}</p></div>
+<!-- ENDIF -->
+
+<!-- IF TEST_RESULT -->
+<div class="successbox"><p>{TEST_RESULT}</p></div>
+<!-- ENDIF -->
+
+<form id="acp_nextcloudcalendar_settings" method="post" action="{U_ACTION}">
+    <fieldset>
+        <legend>{L_ACP_NEXTCLOUDCALENDAR_SETTINGS}</legend>
+        <dl>
+            <dt><label for="enabled">{L_ACP_NEXTCLOUDCALENDAR_ENABLED}{L_COLON}</label></dt>
+            <dd><label><input type="radio" class="radio" name="enabled" value="1"<!-- IF ENABLED --> checked<!-- ENDIF -->> {L_YES}</label>
+                <label><input type="radio" class="radio" name="enabled" value="0"<!-- IF not ENABLED --> checked<!-- ENDIF -->> {L_NO}</label></dd>
+        </dl>
+        <dl>
+            <dt><label for="calendar_url">{L_ACP_NEXTCLOUDCALENDAR_CALENDAR_URL}{L_COLON}</label><br><span>{L_ACP_NEXTCLOUDCALENDAR_CALENDAR_URL_EXPLAIN}</span></dt>
+            <dd><input class="text medium" type="url" id="calendar_url" name="calendar_url" value="{CALENDAR_URL}"></dd>
+        </dl>
+        <dl>
+            <dt><label for="username">{L_ACP_NEXTCLOUDCALENDAR_USERNAME}{L_COLON}</label></dt>
+            <dd><input class="text medium" type="text" id="username" name="username" value="{USERNAME}" autocomplete="username"></dd>
+        </dl>
+        <dl>
+            <dt><label for="password">{L_ACP_NEXTCLOUDCALENDAR_PASSWORD}{L_COLON}</label><br><span>{L_ACP_NEXTCLOUDCALENDAR_PASSWORD_EXPLAIN}</span></dt>
+            <dd><input class="text medium" type="password" id="password" name="password" value="" autocomplete="new-password"></dd>
+        </dl>
+        <dl>
+            <dt><label for="timezone">{L_ACP_NEXTCLOUDCALENDAR_TIMEZONE}{L_COLON}</label></dt>
+            <dd><input class="text medium" type="text" id="timezone" name="timezone" value="{TIMEZONE}"></dd>
+        </dl>
+    </fieldset>
+
+    <fieldset class="submit-buttons">
+        <input class="button1" type="submit" name="submit" value="{L_SUBMIT}">
+        <input class="button2" type="submit" name="test_connection" value="{L_ACP_NEXTCLOUDCALENDAR_TEST}">
+        {S_FORM_TOKEN}
+    </fieldset>
+</form>
+
+<!-- INCLUDE overall_footer.html -->

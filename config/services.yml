@@ -1,0 +1,38 @@
+services:
+    maxbrenne.nextcloudcalendar.controller.request:
+        class: maxbrenne\nextcloudcalendar\controller\request_controller
+        arguments:
+            - '@auth'
+            - '@config'
+            - '@dbal.conn'
+            - '@controller.helper'
+            - '@request'
+            - '@maxbrenne.nextcloudcalendar.service.form_renderer'
+            - '@user'
+            - '%core.table_prefix%'
+
+    maxbrenne.nextcloudcalendar.service.caldav:
+        class: maxbrenne\nextcloudcalendar\service\caldav_client
+        arguments:
+            - '@config'
+            - '@config_text'
+
+    maxbrenne.nextcloudcalendar.service.form_renderer:
+        class: maxbrenne\nextcloudcalendar\service\form_renderer
+        arguments:
+            - '@auth'
+            - '@config'
+            - '@controller.helper'
+            - '@template'
+            - '@user'
+
+    maxbrenne.nextcloudcalendar.event.listener:
+        class: maxbrenne\nextcloudcalendar\event\listener
+        arguments:
+            - '@auth'
+            - '@controller.helper'
+            - '@maxbrenne.nextcloudcalendar.service.form_renderer'
+            - '@template'
+            - '@user'
+        tags:
+            - { name: event.listener }

@@ -1,0 +1,35 @@
+<!-- INCLUDE mcp_header.html -->
+
+<h2>{L_MCP_NEXTCLOUDCALENDAR_QUEUE}</h2>
+
+<!-- IF MESSAGE -->
+<div class="successbox"><p>{MESSAGE}</p></div>
+<!-- ENDIF -->
+
+<!-- IF .events -->
+    <!-- BEGIN events -->
+    <div class="panel">
+        <div class="inner">
+            <h3>{events.TITLE}</h3>
+            <p><strong>{L_MCP_NEXTCLOUDCALENDAR_SUBMITTED_BY}{L_COLON}</strong> {events.USERNAME}</p>
+            <p><strong>{L_MCP_NEXTCLOUDCALENDAR_CREATED}{L_COLON}</strong> {events.CREATED}</p>
+            <p><strong>{L_NEXTCLOUDCALENDAR_EVENT_START}{L_COLON}</strong> {events.START}</p>
+            <p><strong>{L_NEXTCLOUDCALENDAR_EVENT_END}{L_COLON}</strong> {events.END}</p>
+            <!-- IF events.LOCATION --><p><strong>{L_NEXTCLOUDCALENDAR_EVENT_LOCATION}{L_COLON}</strong> {events.LOCATION}</p><!-- ENDIF -->
+            <!-- IF events.DESCRIPTION --><p>{events.DESCRIPTION}</p><!-- ENDIF -->
+            <!-- IF events.NEXTCLOUD_ERROR --><p class="error"><strong>{L_MCP_NEXTCLOUDCALENDAR_LAST_ERROR}{L_COLON}</strong> {events.NEXTCLOUD_ERROR}</p><!-- ENDIF -->
+
+            <form method="post" action="{U_ACTION}">
+                <input type="hidden" name="event_id" value="{events.EVENT_ID}">
+                <input class="button1" type="submit" name="approve" value="{L_MCP_NEXTCLOUDCALENDAR_APPROVE}">
+                <input class="button2" type="submit" name="reject" value="{L_MCP_NEXTCLOUDCALENDAR_REJECT}">
+                {S_FORM_TOKEN}
+            </form>
+        </div>
+    </div>
+    <!-- END events -->
+<!-- ELSE -->
+    <div class="panel"><div class="inner"><p>{L_MCP_NEXTCLOUDCALENDAR_EMPTY}</p></div></div>
+<!-- ENDIF -->
+
+<!-- INCLUDE mcp_footer.html -->

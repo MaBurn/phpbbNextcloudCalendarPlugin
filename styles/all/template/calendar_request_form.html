@@ -1,0 +1,41 @@
+<!-- IF S_NEXTCLOUDCALENDAR_UNAVAILABLE -->
+<div class="errorbox">
+    <p>{NEXTCLOUDCALENDAR_UNAVAILABLE_MSG}</p>
+</div>
+<!-- ELSE -->
+    <!-- IF S_ERROR -->
+    <div class="errorbox">
+        <p>{ERROR_MSG}</p>
+    </div>
+    <!-- ENDIF -->
+
+    <form id="nextcloudcalendar_request" class="nextcloudcalendar-request-form" method="post" action="{U_ACTION}">
+        <fieldset>
+            <dl>
+                <dt><label for="event_title">{L_NEXTCLOUDCALENDAR_EVENT_TITLE}{L_COLON}</label></dt>
+                <dd><input class="inputbox autowidth" type="text" id="event_title" name="event_title" value="{EVENT_TITLE}" maxlength="255" required></dd>
+            </dl>
+            <dl>
+                <dt><label for="event_description">{L_NEXTCLOUDCALENDAR_EVENT_DESCRIPTION}{L_COLON}</label></dt>
+                <dd><textarea class="inputbox" id="event_description" name="event_description" rows="6">{EVENT_DESCRIPTION}</textarea></dd>
+            </dl>
+            <dl>
+                <dt><label for="event_location">{L_NEXTCLOUDCALENDAR_EVENT_LOCATION}{L_COLON}</label></dt>
+                <dd><input class="inputbox autowidth" type="text" id="event_location" name="event_location" value="{EVENT_LOCATION}" maxlength="255"></dd>
+            </dl>
+            <dl>
+                <dt><label for="event_start">{L_NEXTCLOUDCALENDAR_EVENT_START}{L_COLON}</label></dt>
+                <dd><input class="inputbox autowidth" type="datetime-local" id="event_start" name="event_start" value="{EVENT_START}" required></dd>
+            </dl>
+            <dl>
+                <dt><label for="event_end">{L_NEXTCLOUDCALENDAR_EVENT_END}{L_COLON}</label></dt>
+                <dd><input class="inputbox autowidth" type="datetime-local" id="event_end" name="event_end" value="{EVENT_END}" required></dd>
+            </dl>
+        </fieldset>
+
+        <fieldset class="submit-buttons">
+            {S_FORM_TOKEN}
+            <input class="button1" type="submit" name="submit" value="{L_NEXTCLOUDCALENDAR_SUBMIT}">
+        </fieldset>
+    </form>
+<!-- ENDIF -->
