@@ -9,6 +9,7 @@ $lang = array_merge($lang, [
     'ACP_NEXTCLOUDCALENDAR_TITLE' => 'Nextcloud calendar',
     'ACP_NEXTCLOUDCALENDAR_SETTINGS' => 'Settings',
     'ACP_NEXTCLOUDCALENDAR_ENABLED' => 'Enable calendar submissions',
+    'ACP_NEXTCLOUDCALENDAR_ENABLED_EXPLAIN' => 'Controls whether users may open the submission form and send new calendar suggestions. Moderators can still review existing pending suggestions.',
     'ACP_NEXTCLOUDCALENDAR_CALENDAR_URL' => 'CalDAV calendar URL',
     'ACP_NEXTCLOUDCALENDAR_CALENDAR_URL_EXPLAIN' => 'Full Nextcloud calendar URL, e.g. https://cloud.example.org/remote.php/dav/calendars/calendar-user/community-calendar/',
     'ACP_NEXTCLOUDCALENDAR_USERNAME' => 'Technical user',

@@ -61,7 +61,7 @@ class main_module
             'TEST_RESULT' => $test_result,
             'ENABLED' => (int) $config['nextcloudcalendar_enabled'],
             'CALENDAR_URL' => $config['nextcloudcalendar_calendar_url'],
-            'USERNAME' => $config['nextcloudcalendar_username'],
+            'NEXTCLOUDCALENDAR_USERNAME' => $config['nextcloudcalendar_username'],
             'TIMEZONE' => $config['nextcloudcalendar_timezone'],
         ]);
     }
