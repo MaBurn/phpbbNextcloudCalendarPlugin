@@ -81,12 +81,13 @@ class listener implements EventSubscriberInterface
     protected function fallback_module_label(string $langname): string
     {
         $is_german = strpos($this->user->lang_name, 'de') === 0;
+        $is_french = strpos($this->user->lang_name, 'fr') === 0;
 
         $labels = [
-            'ACP_NEXTCLOUDCALENDAR_TITLE' => ['Nextcloud calendar', 'Nextcloud-Kalender'],
-            'ACP_NEXTCLOUDCALENDAR_SETTINGS' => ['Settings', 'Einstellungen'],
-            'MCP_NEXTCLOUDCALENDAR_TITLE' => ['Nextcloud calendar', 'Nextcloud-Kalender'],
-            'MCP_NEXTCLOUDCALENDAR_QUEUE' => ['Approve calendar events', 'Kalendereinträge freigeben'],
+            'ACP_NEXTCLOUDCALENDAR_TITLE' => ['Nextcloud calendar', 'Nextcloud-Kalender', 'Calendrier Nextcloud'],
+            'ACP_NEXTCLOUDCALENDAR_SETTINGS' => ['Settings', 'Einstellungen', 'Parametres'],
+            'MCP_NEXTCLOUDCALENDAR_TITLE' => ['Nextcloud calendar', 'Nextcloud-Kalender', 'Calendrier Nextcloud'],
+            'MCP_NEXTCLOUDCALENDAR_QUEUE' => ['Approve calendar events', 'Kalendereinträge freigeben', 'Valider les evenements'],
         ];
 
         if (!isset($labels[$langname]))
@@ -94,6 +95,6 @@ class listener implements EventSubscriberInterface
             return $langname;
         }
 
-        return $labels[$langname][$is_german ? 1 : 0];
+        return $labels[$langname][$is_french ? 2 : ($is_german ? 1 : 0)];
     }
 }

@@ -15,7 +15,7 @@ Nextcloud calendar through CalDAV.
 - Creates approved events in Nextcloud as iCalendar `VEVENT` entries via CalDAV.
 - Adds an ACP settings page for enabling submissions, configuring CalDAV
   credentials and testing the connection.
-- Supports English and German language files.
+- Supports English, German and French language files.
 - Supports embedding the submission form in phpBB content with
   `[nextcloudcalendar]`.
 
