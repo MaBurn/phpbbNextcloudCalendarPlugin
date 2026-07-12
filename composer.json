@@ -3,7 +3,6 @@
     "type": "phpbb-extension",
     "description": "phpBB extension for moderated calendar submissions to a Nextcloud CalDAV calendar.",
     "homepage": "https://github.com/MaBurn/phpbbNextcloudCalendarPlugin",
-    "version": "0.1.0",
     "license": "GPL-2.0-only",
     "authors": [
         {

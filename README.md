@@ -105,11 +105,8 @@ Composer vendor files and `composer.lock`.
 Static review found no blocking structural issue for activation in phpBB when
 installed under `ext/maxbrenne/nextcloudcalendar`.
 
-The current local review environment did not provide `php` or `composer`
-executables, so PHP linting and `composer validate` still need to be run in an
-environment with those tools installed before tagging a final release.
-
-Recommended release checks:
+These checks passed in a Podman container using the `composer:2` image on
+2026-07-12:
 
 ```bash
 find . -name '*.php' -print0 | xargs -0 -n1 php -l
