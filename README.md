@@ -35,13 +35,28 @@ Install the extension into phpBB under the exact extension path:
 ext/maxbrenne/nextcloudcalendar/
 ```
 
-For a manual installation:
+If you use the release ZIP, extract the ZIP directly into phpBB's `ext`
+directory. The ZIP already contains the `maxbrenne/nextcloudcalendar` path:
+
+```text
+phpBB/
+└── ext/
+    └── maxbrenne/
+        └── nextcloudcalendar/
+            ├── composer.json
+            └── ext.php
+```
+
+If you copy the repository contents manually:
 
 1. Create the directory `ext/maxbrenne/nextcloudcalendar` in your phpBB
    installation.
 2. Copy this repository's contents into that directory.
-3. In the phpBB ACP, open **Customise > Manage extensions**.
-4. Enable **Nextcloud Calendar**.
+3. Make sure `composer.json` and `ext.php` are directly inside
+   `ext/maxbrenne/nextcloudcalendar/`, not in another nested
+   `maxbrenne/nextcloudcalendar` directory.
+4. In the phpBB ACP, open **Customise > Manage extensions**.
+5. Enable **Nextcloud Calendar**.
 
 The extension name in `composer.json` is `maxbrenne/nextcloudcalendar`, so phpBB
 expects the `maxbrenne/nextcloudcalendar` directory layout.
