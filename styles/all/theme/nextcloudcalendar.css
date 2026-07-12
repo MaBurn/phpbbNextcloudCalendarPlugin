@@ -1,0 +1,48 @@
+.nextcloudcalendar-action .icon {
+    color: inherit;
+}
+
+.nextcloudcalendar-tile-panel {
+    margin-bottom: 8px;
+}
+
+.nextcloudcalendar-tile {
+    align-items: center;
+    color: inherit;
+    display: flex;
+    gap: 12px;
+    text-decoration: none;
+}
+
+.nextcloudcalendar-tile:hover strong {
+    text-decoration: underline;
+}
+
+.nextcloudcalendar-tile-icon {
+    align-items: center;
+    background: #e9f1f8;
+    border: 1px solid #c7d8e7;
+    border-radius: 4px;
+    color: #105289;
+    display: inline-flex;
+    flex: 0 0 44px;
+    height: 44px;
+    justify-content: center;
+}
+
+.nextcloudcalendar-tile-icon .icon {
+    font-size: 20px;
+}
+
+.nextcloudcalendar-tile-text {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+}
+
+.nextcloudcalendar-tile-text small {
+    color: #536482;
+    font-size: 12px;
+    line-height: 1.35;
+}

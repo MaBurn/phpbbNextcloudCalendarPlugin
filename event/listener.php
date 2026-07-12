@@ -44,12 +44,16 @@ class listener implements EventSubscriberInterface
 
         $can_create = !empty($this->config['nextcloudcalendar_enabled']) && $this->auth->acl_get('u_nextcloudcalendar_create');
         $frontend_position = $this->config['nextcloudcalendar_frontend_position'] ?? 'navigation';
+        $frontend_icon = $this->normalise_icon($this->config['nextcloudcalendar_frontend_icon'] ?? 'fa-calendar-plus-o');
 
         $this->template->assign_vars([
             'S_NEXTCLOUDCALENDAR_CAN_CREATE' => $can_create,
             'S_NEXTCLOUDCALENDAR_SHOW_NAVIGATION' => $can_create && $frontend_position === 'navigation',
-            'S_NEXTCLOUDCALENDAR_SHOW_INDEX' => $can_create && $frontend_position === 'index',
+            'S_NEXTCLOUDCALENDAR_SHOW_QUICKLINKS' => $can_create && $frontend_position === 'quicklinks',
+            'S_NEXTCLOUDCALENDAR_SHOW_INDEX_BUTTON' => $can_create && $frontend_position === 'index_button',
+            'S_NEXTCLOUDCALENDAR_SHOW_INDEX_TILE' => $can_create && $frontend_position === 'index_tile',
             'S_NEXTCLOUDCALENDAR_SHOW_FOOTER' => $can_create && $frontend_position === 'footer',
+            'NEXTCLOUDCALENDAR_FRONTEND_ICON' => $frontend_icon,
             'U_NEXTCLOUDCALENDAR_REQUEST' => $this->helper->route('maxbrenne_nextcloudcalendar_request'),
         ]);
     }
@@ -105,5 +109,27 @@ class listener implements EventSubscriberInterface
         }
 
         return $labels[$langname][$is_french ? 2 : ($is_german ? 1 : 0)];
+    }
+
+    protected function normalise_icon(string $icon): string
+    {
+        $icon = trim($icon);
+        $icon = preg_replace('/[^a-z0-9\-\s]/i', '', $icon);
+        $parts = preg_split('/\s+/', (string) $icon, -1, PREG_SPLIT_NO_EMPTY);
+
+        foreach ($parts as $part)
+        {
+            if (strpos($part, 'fa-') === 0)
+            {
+                return $part;
+            }
+        }
+
+        if (!empty($parts[0]) && $parts[0] !== 'fa')
+        {
+            return 'fa-' . $parts[0];
+        }
+
+        return 'fa-calendar-plus-o';
     }
 }

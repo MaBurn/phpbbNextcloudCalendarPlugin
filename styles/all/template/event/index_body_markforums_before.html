@@ -1,5 +1,18 @@
-<!-- IF S_NEXTCLOUDCALENDAR_SHOW_INDEX -->
+<!-- IF S_NEXTCLOUDCALENDAR_SHOW_INDEX_BUTTON -->
     <div class="action-bar compact">
-        <a class="button" href="{U_NEXTCLOUDCALENDAR_REQUEST}">{L_NEXTCLOUDCALENDAR_NAV_REQUEST}</a>
+        <a class="button nextcloudcalendar-action" href="{U_NEXTCLOUDCALENDAR_REQUEST}"><i class="icon {NEXTCLOUDCALENDAR_FRONTEND_ICON} fa-fw" aria-hidden="true"></i><span>{L_NEXTCLOUDCALENDAR_NAV_REQUEST}</span></a>
+    </div>
+<!-- ENDIF -->
+<!-- IF S_NEXTCLOUDCALENDAR_SHOW_INDEX_TILE -->
+    <div class="panel nextcloudcalendar-tile-panel">
+        <div class="inner">
+            <a class="nextcloudcalendar-tile" href="{U_NEXTCLOUDCALENDAR_REQUEST}">
+                <span class="nextcloudcalendar-tile-icon"><i class="icon {NEXTCLOUDCALENDAR_FRONTEND_ICON} fa-fw" aria-hidden="true"></i></span>
+                <span class="nextcloudcalendar-tile-text">
+                    <strong>{L_NEXTCLOUDCALENDAR_NAV_REQUEST}</strong>
+                    <small>{L_NEXTCLOUDCALENDAR_TILE_EXPLAIN}</small>
+                </span>
+            </a>
+        </div>
     </div>
 <!-- ENDIF -->

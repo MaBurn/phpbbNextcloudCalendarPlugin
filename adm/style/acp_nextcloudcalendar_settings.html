@@ -23,11 +23,17 @@
             <dd>
                 <select id="frontend_position" name="frontend_position">
                     <option value="navigation"<!-- IF FRONTEND_POSITION_NAVIGATION --> selected<!-- ENDIF -->>{L_ACP_NEXTCLOUDCALENDAR_FRONTEND_POSITION_NAVIGATION}</option>
-                    <option value="index"<!-- IF FRONTEND_POSITION_INDEX --> selected<!-- ENDIF -->>{L_ACP_NEXTCLOUDCALENDAR_FRONTEND_POSITION_INDEX}</option>
+                    <option value="quicklinks"<!-- IF FRONTEND_POSITION_QUICKLINKS --> selected<!-- ENDIF -->>{L_ACP_NEXTCLOUDCALENDAR_FRONTEND_POSITION_QUICKLINKS}</option>
+                    <option value="index_button"<!-- IF FRONTEND_POSITION_INDEX_BUTTON --> selected<!-- ENDIF -->>{L_ACP_NEXTCLOUDCALENDAR_FRONTEND_POSITION_INDEX_BUTTON}</option>
+                    <option value="index_tile"<!-- IF FRONTEND_POSITION_INDEX_TILE --> selected<!-- ENDIF -->>{L_ACP_NEXTCLOUDCALENDAR_FRONTEND_POSITION_INDEX_TILE}</option>
                     <option value="footer"<!-- IF FRONTEND_POSITION_FOOTER --> selected<!-- ENDIF -->>{L_ACP_NEXTCLOUDCALENDAR_FRONTEND_POSITION_FOOTER}</option>
                     <option value="none"<!-- IF FRONTEND_POSITION_NONE --> selected<!-- ENDIF -->>{L_ACP_NEXTCLOUDCALENDAR_FRONTEND_POSITION_NONE}</option>
                 </select>
             </dd>
+        </dl>
+        <dl>
+            <dt><label for="frontend_icon">{L_ACP_NEXTCLOUDCALENDAR_FRONTEND_ICON}{L_COLON}</label><br><span>{L_ACP_NEXTCLOUDCALENDAR_FRONTEND_ICON_EXPLAIN}</span></dt>
+            <dd><input class="text medium" type="text" id="frontend_icon" name="frontend_icon" value="{FRONTEND_ICON}" placeholder="fa-calendar-plus-o"></dd>
         </dl>
         <dl>
             <dt><label for="calendar_url">{L_ACP_NEXTCLOUDCALENDAR_CALENDAR_URL}{L_COLON}</label><br><span>{L_ACP_NEXTCLOUDCALENDAR_CALENDAR_URL_EXPLAIN}</span></dt>

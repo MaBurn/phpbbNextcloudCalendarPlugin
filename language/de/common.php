@@ -7,6 +7,7 @@ if (!defined('IN_PHPBB'))
 
 $lang = array_merge($lang, [
     'NEXTCLOUDCALENDAR_NAV_REQUEST' => 'Kalendereintrag vorschlagen',
+    'NEXTCLOUDCALENDAR_TILE_EXPLAIN' => 'Neuen Termin einreichen und nach Freigabe im Kalender veröffentlichen lassen.',
     'NEXTCLOUDCALENDAR_PAGE_TITLE' => 'Kalendereintrag vorschlagen',
     'NEXTCLOUDCALENDAR_EVENT_TITLE' => 'Titel',
     'NEXTCLOUDCALENDAR_EVENT_DESCRIPTION' => 'Beschreibung',

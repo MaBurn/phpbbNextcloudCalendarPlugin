@@ -7,8 +7,9 @@ Nextcloud calendar through CalDAV.
 
 ## Features
 
-- Adds a configurable "Suggest calendar event" frontend link for users with
-  permission.
+- Adds a configurable "Suggest calendar event" frontend entry for users with
+  permission, including navigation links, quick links, footer links and an
+  index tile.
 - Provides a public submission form with title, description, location, start and
   end time.
 - Stores submissions in a phpBB database table until they are reviewed.
@@ -67,10 +68,12 @@ expects the `maxbrenne/nextcloudcalendar` directory layout.
 Open **ACP > Extensions > Nextcloud calendar > Settings** and configure:
 
 - **Enable calendar submissions**: turns the submission form on or off.
-- **Show frontend link**: chooses where phpBB shows the submission link outside
-  posts. Available positions are main navigation, board index above the forum
-  list, footer, or no automatic link. Embedded forms in posts using
-  `[nextcloudcalendar]` are not affected.
+- **Show frontend link**: chooses where phpBB shows the submission entry outside
+  posts. Available positions are main navigation, quick links, board index
+  button, board index tile, footer, or no automatic link. Embedded forms in
+  posts using `[nextcloudcalendar]` are not affected.
+- **FontAwesome icon**: FA icon class used for the configured frontend entry,
+  for example `fa-calendar-plus-o`.
 - **CalDAV calendar URL**: the full target calendar URL, for example
   `https://cloud.example.org/remote.php/dav/calendars/calendar-user/community-calendar/`.
 - **Technical user**: the Nextcloud user used for CalDAV writes.
