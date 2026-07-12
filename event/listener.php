@@ -31,6 +31,7 @@ class listener implements EventSubscriberInterface
         return [
             'core.page_header' => 'add_calendar_link',
             'core.modify_text_for_display_after' => 'render_shortcode',
+            'core.modify_module_row' => 'translate_module_row',
         ];
     }
 
@@ -52,5 +53,47 @@ class listener implements EventSubscriberInterface
         }
 
         $event['text'] = str_replace('[nextcloudcalendar]', $this->form_renderer->render(), $event['text']);
+    }
+
+    public function translate_module_row($event): void
+    {
+        $module_row = $event['module_row'];
+        $langname = $module_row['langname'] ?? '';
+
+        if (strpos($langname, 'ACP_NEXTCLOUDCALENDAR_') !== 0 && strpos($langname, 'MCP_NEXTCLOUDCALENDAR_') !== 0)
+        {
+            return;
+        }
+
+        $this->user->add_lang_ext('maxbrenne/nextcloudcalendar', 'acp');
+        $this->user->add_lang_ext('maxbrenne/nextcloudcalendar', 'mcp');
+
+        $translated = $this->user->lang($langname);
+        if ($translated === $langname)
+        {
+            $translated = $this->fallback_module_label($langname);
+        }
+
+        $module_row['lang'] = $translated;
+        $event['module_row'] = $module_row;
+    }
+
+    protected function fallback_module_label(string $langname): string
+    {
+        $is_german = strpos($this->user->lang_name, 'de') === 0;
+
+        $labels = [
+            'ACP_NEXTCLOUDCALENDAR_TITLE' => ['Nextcloud calendar', 'Nextcloud-Kalender'],
+            'ACP_NEXTCLOUDCALENDAR_SETTINGS' => ['Settings', 'Einstellungen'],
+            'MCP_NEXTCLOUDCALENDAR_TITLE' => ['Nextcloud calendar', 'Nextcloud-Kalender'],
+            'MCP_NEXTCLOUDCALENDAR_QUEUE' => ['Approve calendar events', 'Kalendereinträge freigeben'],
+        ];
+
+        if (!isset($labels[$langname]))
+        {
+            return $langname;
+        }
+
+        return $labels[$langname][$is_german ? 1 : 0];
     }
 }
