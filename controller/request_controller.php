@@ -87,6 +87,10 @@ class request_controller
                         'end_time' => $timestamps['end'],
                         'status' => 'pending',
                         'created_time' => time(),
+                        'approved_time' => 0,
+                        'approved_user_id' => 0,
+                        'nextcloud_uid' => '',
+                        'nextcloud_error' => '',
                     ];
 
                     $this->db->sql_query('INSERT INTO ' . $this->events_table . ' ' . $this->db->sql_build_array('INSERT', $sql_ary));
