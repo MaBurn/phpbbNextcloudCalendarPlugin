@@ -121,12 +121,16 @@ Static review found no blocking structural issue for activation in phpBB when
 installed under `ext/maxbrenne/nextcloudcalendar`.
 
 These checks passed in a Podman container using the `composer:2` image on
-2026-07-12:
+2026-07-13:
 
 ```bash
 find . -name '*.php' -print0 | xargs -0 -n1 php -l
-composer validate --strict
+composer validate
 ```
+
+`composer validate --strict` reports a warning for the `version` field. The
+field is intentionally kept because phpBB 3.3.11 requires it when validating an
+extension for display in the ACP extension manager.
 
 Then enable the extension in a phpBB 3.3 test installation and verify:
 
