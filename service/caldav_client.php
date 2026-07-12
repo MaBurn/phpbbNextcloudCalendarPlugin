@@ -61,6 +61,12 @@ class caldav_client
             return ['ok' => false, 'status' => 0];
         }
 
+        if (strpos($url, '/apps/calendar/p/') !== false)
+        {
+            $this->last_error = 'The configured Nextcloud URL is a public calendar share, not a CalDAV URL. Use the private CalDAV URL from Nextcloud calendar settings.';
+            return ['ok' => false, 'status' => 0];
+        }
+
         $curl = curl_init($url);
         curl_setopt_array($curl, [
             CURLOPT_CUSTOMREQUEST => $method,
