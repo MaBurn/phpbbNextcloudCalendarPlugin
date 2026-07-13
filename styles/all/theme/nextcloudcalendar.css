@@ -56,7 +56,7 @@
  * tile icon so the entry looks native. All other themes are unaffected.
  */
 .page-header-metro .navbar .nav-main-metro-tabs > li.nextcloudcalendar-nav-item > a {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22120%22 height=%22120%22 viewBox=%220 0 120 120%22%3E%3Cg fill=%22%23fff%22%3E%3Crect x=%2247%22 y=%2233%22 width=%225%22 height=%2212%22 rx=%222.5%22/%3E%3Crect x=%2268%22 y=%2233%22 width=%225%22 height=%2212%22 rx=%222.5%22/%3E%3Cpath fill-rule=%22evenodd%22 d=%22M34 46a6 6 0 0 1 6-6h40a6 6 0 0 1 6 6v34a6 6 0 0 1-6 6H40a6 6 0 0 1-6-6V46zm6 8v26h40V54H40z%22/%3E%3Crect x=%2257%22 y=%2260%22 width=%226%22 height=%2218%22/%3E%3Crect x=%2251%22 y=%2266%22 width=%2218%22 height=%226%22/%3E%3C/g%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22120%22 height=%22120%22 viewBox=%220 0 120 120%22%3E%3Cg fill=%22%23fff%22%3E%3Crect x=%2251.5%22 y=%2212%22 width=%223.5%22 height=%229%22 rx=%221.75%22/%3E%3Crect x=%2265%22 y=%2212%22 width=%223.5%22 height=%229%22 rx=%221.75%22/%3E%3Cpath fill-rule=%22evenodd%22 d=%22M48 18h24a4 4 0 0 1 4 4v22a4 4 0 0 1-4 4H48a4 4 0 0 1-4-4V22a4 4 0 0 1 4-4zm0 9v17h24V27H48z%22/%3E%3Crect x=%2258%22 y=%2230%22 width=%224%22 height=%2211%22/%3E%3Crect x=%2254.5%22 y=%2233.5%22 width=%2211%22 height=%224%22/%3E%3C/g%3E%3C/svg%3E");
     background-position: 0 0;
     background-size: 100% 100%;
     background-repeat: no-repeat;
