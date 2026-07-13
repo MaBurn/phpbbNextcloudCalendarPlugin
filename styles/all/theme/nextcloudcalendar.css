@@ -46,3 +46,22 @@
     font-size: 12px;
     line-height: 1.35;
 }
+
+/*
+ * Theme-specific: "Metro for phpBB 3.3" (PixelGoose) turns every top-level nav
+ * entry into a 120x120 golden tile whose icon is a white SVG background image
+ * (tab-icon-*.svg), assigned per <li> class. Our entry has no such class, so the
+ * tile would stay empty except for a stray FontAwesome glyph. Under Metro
+ * (.page-header-metro) we hide that glyph and supply a matching white calendar
+ * tile icon so the entry looks native. All other themes are unaffected.
+ */
+.page-header-metro .navbar .nav-main-metro-tabs > li.nextcloudcalendar-nav-item > a {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22120%22 height=%22120%22 viewBox=%220 0 120 120%22%3E%3Cg fill=%22%23fff%22%3E%3Crect x=%2247%22 y=%2233%22 width=%225%22 height=%2212%22 rx=%222.5%22/%3E%3Crect x=%2268%22 y=%2233%22 width=%225%22 height=%2212%22 rx=%222.5%22/%3E%3Cpath fill-rule=%22evenodd%22 d=%22M34 46a6 6 0 0 1 6-6h40a6 6 0 0 1 6 6v34a6 6 0 0 1-6 6H40a6 6 0 0 1-6-6V46zm6 8v26h40V54H40z%22/%3E%3Crect x=%2257%22 y=%2260%22 width=%226%22 height=%2218%22/%3E%3Crect x=%2251%22 y=%2266%22 width=%2218%22 height=%226%22/%3E%3C/g%3E%3C/svg%3E");
+    background-position: 0 0;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+.page-header-metro .nav-main-metro-tabs > li.nextcloudcalendar-nav-item .icon {
+    display: none;
+}
